@@ -1,9 +1,30 @@
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Accueil from "./components/Accueil.js";
 import Produit from "./components/Produit.js";
 
 function App() {
+  const [produits, setProduit] = useState([
+    {
+      id: 1,
+      nom: "Bouleau",
+      desc: "Arbre à écorce blanc",
+      prix: "$72",
+    },
+    {
+      id: 2,
+      nom: "Érable",
+      desc: "Arbre emblème du Canada",
+      prix: "$37",
+    },
+    {
+      id: 3,
+      nom: "Chène",
+      desc: "Arbre répandu en ville",
+      prix: "$114",
+    },
+  ]);
   return (
     <BrowserRouter>
       <nav class="navbar navbar-expand-lg bg-success text-dark bg-opacity-50">

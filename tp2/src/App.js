@@ -25,6 +25,28 @@ function App() {
       prix: "$114",
     },
   ]);
+
+  const addProduit = (newProduit) => {
+    let id;
+    while (true) {
+      id = Math.random() * 1000;
+      const sameId = produits?.some((produit) => produit.id === id);
+      if (!sameId) {
+        break;
+      }
+    }
+    setProduit([...produits, { ...newProduit, id }]);
+  };
+
+  const editProduit = (newProduit) => {
+    const prod = produits.filter((produit) => produit.id !== newProduit.id);
+    setProduit([...prod, newProduit]);
+  };
+
+  const deleteProduit = (id) => {
+    setProduit(produits.filter((produit) => produit.id !== id));
+  };
+
   return (
     <BrowserRouter>
       <nav class="navbar navbar-expand-lg bg-success text-dark bg-opacity-50">
@@ -43,7 +65,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<Accueil />} />
-          <Route path="/produit" element={<Produit />} />
+          <Route path="/produit" element={<Produit onAdd={addProduit} onDelete={deleteProduit} onEdit={editProduit} produits={produits} />} />
         </Routes>
       </div>
     </BrowserRouter>

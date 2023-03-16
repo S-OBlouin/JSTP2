@@ -32,33 +32,29 @@ const NewProduit = ({ onAdd, produits, isEdit, setIsEdit, onEdit }) => {
   };
 
   return (
-    <div className="card">
-      <form className="mt-5" onSubmit={onSubmit}>
-        <div className="card-header">
+    <div className="card mt-5">
+      <form onSubmit={onSubmit}>
+        <div className="card-header text-center">
           <h2>Nouveau Produit</h2>
         </div>
         <div className="card-body">
-          <div className="form-control">
-            <label>Nom</label>
-            <input type="text" placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} />
-          </div>
-          <div className="form-control">
-            <label>Description</label>
-            <textarea placeholder="Description du produit" value={desc} onChange={(e) => setDesc(e.target.value)} />
-          </div>
-          <div className="form-control">
-            <label>Prix</label>
-            <input type="text" placeholder="Prix" value={prix} onChange={(e) => setPrix(e.target.value)} />
-          </div>
+          <label className="form-label">Nom</label>
+          <input type="text" placeholder="Nom" value={nom} className="form-control" onChange={(e) => setNom(e.target.value)} />
+          <label className="form-label">Description</label>
+          <textarea placeholder="Description du produit" className="form-control" value={desc} onChange={(e) => setDesc(e.target.value)} />
+          <label className="form-label">Prix</label>
+          <input type="text" placeholder="Prix" className="form-control" value={prix} onChange={(e) => setPrix(e.target.value)} />
         </div>
-        <button type="submit" className="btn bg-primary">
-          Enregistrer
-        </button>
-        {isEdit && (
-          <button type="button" className="btn bg-danger" onClick={() => setIsEdit(null)}>
-            Retour
+        <div className="text-center ">
+          <button type="submit" className="btn bg-primary text-white mb-2 me-2">
+            Enregistrer
           </button>
-        )}
+          {isEdit && (
+            <button type="button" className="btn bg-danger text-white mb-2" onClick={() => setIsEdit(null)}>
+              Retour
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

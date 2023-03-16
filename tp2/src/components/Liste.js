@@ -5,7 +5,7 @@ const Liste = ({ produits, setIsEdit, onDelete }) => {
         return (
           <li className="list-group-item d-flex justify-content-between">
             <span>
-              {produit.nom} | {produit.prix}
+              {produit.nom} | ${produit.prix}
             </span>
             <div>
               <button

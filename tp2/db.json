@@ -1,0 +1,22 @@
+{
+  "produits": [
+    {
+      "id": 1,
+      "nom": "Bouleau",
+      "desc": "Arbre à écorce blanc",
+      "prix": "72"
+    },
+    {
+      "id": 2,
+      "nom": "Érable",
+      "desc": "Arbre emblème du Canada",
+      "prix": "37"
+    },
+    {
+      "id": 3,
+      "nom": "Chène",
+      "desc": "Arbre répandu en ville",
+      "prix": "114"
+    }
+  ]
+}

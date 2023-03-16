@@ -1,49 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Accueil from "./components/Accueil.js";
 import Produit from "./components/Produit.js";
 
 function App() {
-  const [produits, setProduit] = useState([
-    {
-      id: 1,
-      nom: "Bouleau",
-      desc: "Arbre à écorce blanc",
-      prix: "$72",
-    },
-    {
-      id: 2,
-      nom: "Érable",
-      desc: "Arbre emblème du Canada",
-      prix: "$37",
-    },
-    {
-      id: 3,
-      nom: "Chène",
-      desc: "Arbre répandu en ville",
-      prix: "$114",
-    },
-  ]);
+  const [produits, setProduit] = useState([]);
 
-  const addProduit = (newProduit) => {
-    let id;
-    while (true) {
-      id = Math.random() * 1000;
-      const sameId = produits?.some((produit) => produit.id === id);
-      if (!sameId) {
-        break;
-      }
-    }
+  useEffect(() => {
+    const getProduits = async () => {
+      const produitFromServer = await fetchProduits();
+      setProduit(produitFromServer);
+    };
+    getProduits();
+  }, []);
+
+  const fetchProduits = async () => {
+    const res = await fetch("http://localhost:5000/produits");
+    const data = await res.json();
+    return data;
+  };
+  const fetchProduit = async (id) => {
+    const res = await fetch(`http://localhost:5000/produits/${id}`);
+    const data = await res.json();
+    return data;
+  };
+
+  const addProduit = async (produit) => {
+    const res = await fetch("http://localhost:5000/produits", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(produit),
+    });
+    // let id;
+    // while (true) {
+    //   id = Math.random() * 1000;
+    //   const sameId = produits?.some((produit) => produit.id === id);
+    //   if (!sameId) {
+    //     break;
+    //   }
+    // }
+    const newProduit = await res.json();
     setProduit([...produits, { ...newProduit, id }]);
   };
 
-  const editProduit = (newProduit) => {
-    const prod = produits.filter((produit) => produit.id !== newProduit.id);
-    setProduit([...prod, newProduit]);
+  const editProduit = async (id) => {
+    const produitToUpd = await fetchProduit(id);
+    const updProduit = { nom: produitToUpd.nom, desc: produitToUpd.desc, prix: produitToUpd.prix };
+    const res = await fetch(`http://localhost:5000/produits/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(updProduit),
+    });
+    const data = await res.json();
+    setProduit(produits.map((produit) => (produit.id === id ? { ...produit, data } : produit)));
   };
 
-  const deleteProduit = (id) => {
+  const deleteProduit = async (id) => {
+    await fetch(`http://localhost:5000/produits/${id}`, {
+      method: "DELETE",
+    });
     setProduit(produits.filter((produit) => produit.id !== id));
   };
 
@@ -53,10 +73,10 @@ function App() {
         <div class="container-fluid">
           <p className="fw-bold fs-4">Les Arbres Forest</p>
           <div class="navbar-nav">
-            <Link to="/" className="nav-link">
+            <Link to="/build" className="nav-link">
               <p className="fw-bold fs-4">Accueil</p>
             </Link>
-            <Link to="/produit" className="nav-link">
+            <Link to="/build/produit" className="nav-link">
               <p className="fw-bold fs-4">Produit</p>
             </Link>
           </div>
